@@ -10,9 +10,11 @@ AR = $(CROSS_COMPILE)ar
 export CC
 export AR
 
-all:
+OUT   := cortexflash
+
+${OUT}:
 	$(MAKE) -C parsers
-	$(CC) -o cortexflash -I./ \
+	$(CC) -o ${OUT} -I./ \
 		main.c \
 		utils.c \
 		stm32.c \
@@ -25,6 +27,9 @@ all:
 clean:
 	$(MAKE) -C parsers clean
 	rm -rf *.o
+	rm -rf ${OUT}
 
-install: all
-	cp cortexflash /usr/local/bin
+install: ${OUT}
+	-mkdir -p ~/bin
+	cp ${OUT} ~/bin
+
